@@ -8,6 +8,7 @@ class Fish
 private:
     int id;
     string name;
+    string color;
     string characteristics;
 
 public:
@@ -15,6 +16,7 @@ public:
     Fish() {
         id = 0;
         name = "";
+        color = "";
         characteristics = "";
     }
 
@@ -22,18 +24,28 @@ public:
     Fish(int fishId) {
         id = fishId;
         name = "";
+        color = "";
         characteristics = "";
     }
     // ID and Name Constructor
     Fish(int fishId, string fishName) {
         id = fishId;
         name = fishName;
+        color = "";
         characteristics = "";
     }
-    // ID, Name, and Characteristics Constructor
-    Fish(int fishId, string fishName, string fishCharacteristics) {
+    // ID, Name, and Color Constructor
+    Fish(int fishId, string fishName, string fishColor) {
         id = fishId;
         name = fishName;
+        color = fishColor;
+        characteristics = "";
+    }
+    // ID, Name, Color, and Characteristics Constructor
+    Fish(int fishId, string fishName, string fishColor, string fishCharacteristics) {
+        id = fishId;
+        name = fishName;
+        color = fishColor;
         characteristics = fishCharacteristics;
     }
 
@@ -44,6 +56,10 @@ public:
 
     string getName() {
         return name;
+    }
+
+    string getColor() {
+        return color;
     }
 
     string getCharacteristics() {
@@ -68,12 +84,14 @@ public:
         cout << "Fish Characteristics: " << characteristics << endl;
     }
 
-    
+
 };
 
 int main()
 {
-
+    Fish f;
+    f.displayFishInfo();
+    f
 
     return 0;
 }
