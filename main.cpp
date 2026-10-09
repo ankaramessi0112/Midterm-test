@@ -36,6 +36,30 @@ public:
         name = fishName;
         characteristics = fishCharacteristics;
     }
+
+    // Getter
+    int getId() {
+        return id;
+    }
+
+    string getName() {
+        return name;
+    }
+
+    string getCharacteristics() {
+        return characteristics;
+    }
+
+    // Setter
+    void setId(int fishId) {
+        id = fishId;
+    }
+    void setName(string fishName) { 
+        name = fishName;
+    }
+    void setCharacteristics(string fishCharacteristics) {
+        characteristics = fishCharacteristics;
+    }
 };
 
 int main()
