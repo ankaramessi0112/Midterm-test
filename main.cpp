@@ -211,12 +211,26 @@ void displayFishGroupedByColor(const Fish fishList[], int fishCount)
 
 int main()
 {
+    Category categories[] = {
+        Category(1, "Goldfish", "Common ornamental freshwater fish."),
+        Category(2, "Tropical Fish", "Colorful fish from tropical waters."),
+        Category(3, "Cichlid", "Freshwater fish with distinctive behavior.")
+    };
+    const int categoryCount = sizeof(categories) / sizeof(categories[0]);
+
     // Create Fish obj
     Fish f1;
     Fish f2(1);
     Fish f3(2, "Ca Vang");
     Fish f4(3, "Ca ro", "Green");
     Fish f5(4, "Ca hoi", "Red", "Friendly");
+
+    // Assign each fish to a category.
+    f1.setCategoryId(1);
+    f2.setCategoryId(1);
+    f3.setCategoryId(2);
+    f4.setCategoryId(2);
+    f5.setCategoryId(3);
 
     f1.displayFishInfo();
     f2.displayFishInfo();
@@ -228,11 +242,6 @@ int main()
     f5.setName("Ca khong lo");
     f5.setColor("Rainbow");
     f5.setCharacteristics("Cute");
-    f1.setCategoryId(1);
-    f2.setCategoryId(1);
-    f3.setCategoryId(1);
-    f4.setCategoryId(1);
-    f5.setCategoryId(1);
     f5.displayFishInfo();
 
     // Getters
@@ -251,23 +260,49 @@ int main()
         f3,
         f4,
         f5,
-        Fish(5, "Betta", "Blue", "Long flowing fins", 1),
-        Fish(6, "Guppy", "Yellow", "Small and active", 1),
-        Fish(7, "Angelfish", "Silver", "Tall dorsal and anal fins", 1),
+        Fish(5, "Betta", "Blue", "Long flowing fins", 2),
+        Fish(6, "Guppy", "Yellow", "Small and active", 2),
+        Fish(7, "Angelfish", "Silver", "Tall dorsal and anal fins", 2),
         Fish(8, "Koi", "Orange", "Colorful ornamental carp", 1),
         Fish(9, "Goldfish", "Gold", "Hardy freshwater fish", 1),
-        Fish(10, "Discus", "Red", "Round-shaped body", 1),
-        Fish(11, "Flowerhorn", "Red", "Distinctive head hump", 1),
-        Fish(12, "Neon Tetra", "Blue", "Bright horizontal stripe", 1),
-        Fish(13, "Molly", "Black", "Peaceful community fish", 1),
-        Fish(14, "Oscar", "Black", "Intelligent cichlid", 1)
+        Fish(10, "Discus", "Red", "Round-shaped body", 3),
+        Fish(11, "Flowerhorn", "Red", "Distinctive head hump", 3),
+        Fish(12, "Neon Tetra", "Blue", "Bright horizontal stripe", 2),
+        Fish(13, "Molly", "Black", "Peaceful community fish", 2),
+        Fish(14, "Oscar", "Black", "Intelligent cichlid", 3)
     };
 
     const int fishCount = sizeof(fishList) / sizeof(fishList[0]);
     displayFishGroupedByColor(fishList, fishCount);
 
-    Category category(1, "Ornamental Fish", "Fish kept mainly for decoration.");
-    category.displayCategoryInfo();
+    cout << "\nAll categories:\n";
+    for (int i = 0; i < categoryCount; ++i) {
+        categories[i].displayCategoryInfo();
+        cout << endl;
+    }
+
+    const int selectedCategoryId = 2;
+    cout << "Fish in selected category (ID: "
+         << selectedCategoryId << "):\n";
+    for (int i = 0; i < categoryCount; ++i) {
+        if (categories[i].getCategoryId() == selectedCategoryId) {
+            cout << "Category: " << categories[i].getCategoryName() << endl;
+            break;
+        }
+    }
+
+    bool foundFish = false;
+    for (int i = 0; i < fishCount; ++i) {
+        if (fishList[i].getCategoryId() == selectedCategoryId) {
+            cout << "- " << fishList[i].getName()
+                 << " (ID: " << fishList[i].getId() << ")\n";
+            foundFish = true;
+        }
+    }
+
+    if (!foundFish) {
+        cout << "No fish belong to this category.\n";
+    }
 
     return 0;
 }
