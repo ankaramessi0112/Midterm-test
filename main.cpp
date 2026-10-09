@@ -50,19 +50,19 @@ public:
     }
 
     // Getter
-    int getId() {
+    int getId() const {
         return id;
     }
 
-    string getName() {
+    string getName() const {
         return name;
     }
 
-    string getColor() {
+    string getColor() const {
         return color;
     }
 
-    string getCharacteristics() {
+    string getCharacteristics() const {
         return characteristics;
     }
 
@@ -91,6 +91,50 @@ public:
 
 };
 
+void displayFishGroupedByColor(const Fish fishList[], int fishCount)
+{
+    string* colors = new string[fishCount];
+    int colorCount = 0;
+
+    for (int i = 0; i < fishCount; ++i) {
+        string color = fishList[i].getColor();
+        if (color.empty()) {
+            color = "Color not specified";
+        }
+
+        bool colorAlreadyExists = false;
+        for (int j = 0; j < colorCount; ++j) {
+            if (colors[j] == color) {
+                colorAlreadyExists = true;
+                break;
+            }
+        }
+
+        if (!colorAlreadyExists) {
+            colors[colorCount] = color;
+            ++colorCount;
+        }
+    }
+
+    cout << "\nFish grouped by color:\n";
+    for (int i = 0; i < colorCount; ++i) {
+        cout << "\n" << colors[i] << ":\n";
+        for (int j = 0; j < fishCount; ++j) {
+            string fishColor = fishList[j].getColor();
+            if (fishColor.empty()) {
+                fishColor = "Color not specified";
+            }
+
+            if (fishColor == colors[i]) {
+                cout << "- " << fishList[j].getName()
+                     << " (ID: " << fishList[j].getId() << ")\n";
+            }
+        }
+    }
+
+    delete[] colors;
+}
+
 int main()
 {
     // Create Fish obj
@@ -116,9 +160,31 @@ int main()
     cout << "Fish ID: " << f5.getId() << endl;
     cout << "Fish name: " << f5.getName() << endl;
     cout << "Fish color: " << f5.getColor() << endl;
-    cout << "Fish chatacteristics: " << f5.getCharacteristics() << endl;
+    cout << "Fish characteristics: " << f5.getCharacteristics() << endl;
 
     f5.displayFishInfo();
+
+    // Add ornamental fish.
+    Fish fishList[] = {
+        f1,
+        f2,
+        f3,
+        f4,
+        f5,
+        Fish(5, "Betta", "Blue", "Long flowing fins"),
+        Fish(6, "Guppy", "Yellow", "Small and active"),
+        Fish(7, "Angelfish", "Silver", "Tall dorsal and anal fins"),
+        Fish(8, "Koi", "Orange", "Colorful ornamental carp"),
+        Fish(9, "Goldfish", "Gold", "Hardy freshwater fish"),
+        Fish(10, "Discus", "Red", "Round-shaped body"),
+        Fish(11, "Flowerhorn", "Red", "Distinctive head hump"),
+        Fish(12, "Neon Tetra", "Blue", "Bright horizontal stripe"),
+        Fish(13, "Molly", "Black", "Peaceful community fish"),
+        Fish(14, "Oscar", "Black", "Intelligent cichlid")
+    };
+
+    const int fishCount = sizeof(fishList) / sizeof(fishList[0]);
+    displayFishGroupedByColor(fishList, fishCount);
+
     return 0;
 }
-
