@@ -103,7 +103,7 @@ public:
     }
 
     // Display
-    void displayFishInfo() {
+    void displayFishInfo() const {
         cout << "Fish ID: " << id << endl;
         cout << "Fish Name: " << name << endl;
         cout << "Fish Color: " << color << endl;
@@ -165,6 +165,193 @@ public:
     }
 };
 
+class Date
+{
+private:
+    int day;
+    int month;
+    int year;
+
+public:
+    Date() {
+        day = 1;
+        month = 1;
+        year = 2000;
+    }
+
+    Date(int dateDay, int dateMonth, int dateYear) {
+        day = dateDay;
+        month = dateMonth;
+        year = dateYear;
+    }
+
+    int getDay() const {
+        return day;
+    }
+
+    int getMonth() const {
+        return month;
+    }
+
+    int getYear() const {
+        return year;
+    }
+
+    void setDay(int dateDay) {
+        day = dateDay;
+    }
+
+    void setMonth(int dateMonth) {
+        month = dateMonth;
+    }
+
+    void setYear(int dateYear) {
+        year = dateYear;
+    }
+
+    void displayDate() const {
+        cout << day << "/" << month << "/" << year;
+    }
+};
+
+class FishShop
+{
+private:
+    static const int maxCategories = 4;
+    static const int maxFishes = 40;
+
+    int id;
+    string name;
+    string address;
+    string owner;
+    Date startdate;
+    Category categories[maxCategories];
+    Fish fishes[maxFishes];
+    int categoryCount;
+    int fishCount;
+
+public:
+    FishShop() {
+        id = 0;
+        name = "";
+        address = "";
+        owner = "";
+        startdate = Date();
+        categoryCount = 0;
+        fishCount = 0;
+    }
+
+    FishShop(int shopId, string shopName, string shopAddress,
+             string shopOwner, Date shopStartDate) {
+        id = shopId;
+        name = shopName;
+        address = shopAddress;
+        owner = shopOwner;
+        startdate = shopStartDate;
+        categoryCount = 0;
+        fishCount = 0;
+    }
+
+    int getId() const {
+        return id;
+    }
+
+    string getName() const {
+        return name;
+    }
+
+    string getAddress() const {
+        return address;
+    }
+
+    string getOwner() const {
+        return owner;
+    }
+
+    Date getStartDate() const {
+        return startdate;
+    }
+
+    int getCategoryCount() const {
+        return categoryCount;
+    }
+
+    int getFishCount() const {
+        return fishCount;
+    }
+
+    const Category* getCategories() const {
+        return categories;
+    }
+
+    const Fish* getFishes() const {
+        return fishes;
+    }
+
+    void setId(int shopId) {
+        id = shopId;
+    }
+
+    void setName(string shopName) {
+        name = shopName;
+    }
+
+    void setAddress(string shopAddress) {
+        address = shopAddress;
+    }
+
+    void setOwner(string shopOwner) {
+        owner = shopOwner;
+    }
+
+    void setStartDate(Date shopStartDate) {
+        startdate = shopStartDate;
+    }
+
+    void setCategories(const Category categoryList[], int count) {
+        categoryCount = count < maxCategories ? count : maxCategories;
+        for (int i = 0; i < categoryCount; ++i) {
+            categories[i] = categoryList[i];
+        }
+    }
+
+    void setFishes(const Fish fishList[], int count) {
+        fishCount = count < maxFishes ? count : maxFishes;
+        for (int i = 0; i < fishCount; ++i) {
+            fishes[i] = fishList[i];
+        }
+    }
+
+    void displayCategories() const {
+        cout << "\nCategories:\n";
+        for (int i = 0; i < categoryCount; ++i) {
+            categories[i].displayCategoryInfo();
+            cout << endl;
+        }
+    }
+
+    void displayFishes() const {
+        cout << "\nFish:\n";
+        for (int i = 0; i < fishCount; ++i) {
+            fishes[i].displayFishInfo();
+            cout << endl;
+        }
+    }
+
+    void displayShopInfo() const {
+        cout << "\nFish shop information:\n";
+        cout << "Shop ID: " << id << endl;
+        cout << "Shop Name: " << name << endl;
+        cout << "Address: " << address << endl;
+        cout << "Owner: " << owner << endl;
+        cout << "Start Date: ";
+        startdate.displayDate();
+        cout << endl;
+        displayCategories();
+        displayFishes();
+    }
+};
+
 void displayFishGroupedByColor(const Fish fishList[], int fishCount)
 {
     string* colors = new string[fishCount];
@@ -214,95 +401,68 @@ int main()
     Category categories[] = {
         Category(1, "Goldfish", "Common ornamental freshwater fish."),
         Category(2, "Tropical Fish", "Colorful fish from tropical waters."),
-        Category(3, "Cichlid", "Freshwater fish with distinctive behavior.")
+        Category(3, "Cichlid", "Freshwater fish with distinctive behavior."),
+        Category(4, "Betta Fish", "Small fish known for colorful fins.")
     };
-    const int categoryCount = sizeof(categories) / sizeof(categories[0]);
 
-    // Create Fish obj
-    Fish f1;
-    Fish f2(1);
-    Fish f3(2, "Ca Vang");
-    Fish f4(3, "Ca ro", "Green");
-    Fish f5(4, "Ca hoi", "Red", "Friendly");
-
-    // Assign each fish to a category.
-    f1.setCategoryId(1);
-    f2.setCategoryId(1);
-    f3.setCategoryId(2);
-    f4.setCategoryId(2);
-    f5.setCategoryId(3);
-
-    f1.displayFishInfo();
-    f2.displayFishInfo();
-    f3.displayFishInfo();
-    f4.displayFishInfo();
-    f5.displayFishInfo();
-    
-    // Setters
-    f5.setName("Ca khong lo");
-    f5.setColor("Rainbow");
-    f5.setCharacteristics("Cute");
-    f5.displayFishInfo();
-
-    // Getters
-    cout << "Fish ID: " << f5.getId() << endl;
-    cout << "Fish name: " << f5.getName() << endl;
-    cout << "Fish color: " << f5.getColor() << endl;
-    cout << "Fish characteristics: " << f5.getCharacteristics() << endl;
-    cout << "Fish category ID: " << f5.getCategoryId() << endl;
-
-    f5.displayFishInfo();
-
-    // Add ornamental fish.
     Fish fishList[] = {
-        f1,
-        f2,
-        f3,
-        f4,
-        f5,
-        Fish(5, "Betta", "Blue", "Long flowing fins", 2),
-        Fish(6, "Guppy", "Yellow", "Small and active", 2),
-        Fish(7, "Angelfish", "Silver", "Tall dorsal and anal fins", 2),
-        Fish(8, "Koi", "Orange", "Colorful ornamental carp", 1),
-        Fish(9, "Goldfish", "Gold", "Hardy freshwater fish", 1),
-        Fish(10, "Discus", "Red", "Round-shaped body", 3),
-        Fish(11, "Flowerhorn", "Red", "Distinctive head hump", 3),
-        Fish(12, "Neon Tetra", "Blue", "Bright horizontal stripe", 2),
-        Fish(13, "Molly", "Black", "Peaceful community fish", 2),
-        Fish(14, "Oscar", "Black", "Intelligent cichlid", 3)
+        Fish(1, "Common Goldfish", "Gold", "Hardy freshwater fish", 1),
+        Fish(2, "Comet Goldfish", "Orange", "Long flowing tail", 1),
+        Fish(3, "Shubunkin", "Blue", "Colorful spotted scales", 1),
+        Fish(4, "Fantail Goldfish", "Red", "Double tail fin", 1),
+        Fish(5, "Oranda", "Gold", "Rounded head growth", 1),
+        Fish(6, "Pearlscale", "White", "Pearl-like scales", 1),
+        Fish(7, "Lionhead", "Orange", "Distinctive head growth", 1),
+        Fish(8, "Ryukin", "Red", "High back profile", 1),
+        Fish(9, "Black Moor", "Black", "Telescope eyes", 1),
+        Fish(10, "Celestial Eye", "Gold", "Upturned eyes", 1),
+        Fish(11, "Neon Tetra", "Blue", "Bright horizontal stripe", 2),
+        Fish(12, "Guppy", "Yellow", "Small and active", 2),
+        Fish(13, "Angelfish", "Silver", "Tall dorsal fin", 2),
+        Fish(14, "Molly", "Black", "Peaceful community fish", 2),
+        Fish(15, "Platy", "Orange", "Friendly livebearer", 2),
+        Fish(16, "Swordtail", "Green", "Sword-shaped tail", 2),
+        Fish(17, "Koi", "White", "Colorful ornamental carp", 2),
+        Fish(18, "Rainbowfish", "Rainbow", "Shimmering body", 2),
+        Fish(19, "Pearl Gourami", "Silver", "Pearl-like spots", 2),
+        Fish(20, "Discus", "Red", "Round-shaped body", 2),
+        Fish(21, "Oscar", "Black", "Intelligent cichlid", 3),
+        Fish(22, "Flowerhorn", "Red", "Distinctive head hump", 3),
+        Fish(23, "Jack Dempsey", "Blue", "Blue facial markings", 3),
+        Fish(24, "Convict Cichlid", "Gray", "Dark vertical stripes", 3),
+        Fish(25, "Green Terror", "Green", "Bright fin edges", 3),
+        Fish(26, "Electric Blue Acara", "Blue", "Electric blue color", 3),
+        Fish(27, "Firemouth", "Red", "Red throat coloring", 3),
+        Fish(28, "Peacock Cichlid", "Yellow", "Bright yellow body", 3),
+        Fish(29, "Texas Cichlid", "Gray", "Spotted body pattern", 3),
+        Fish(30, "African Cichlid", "Orange", "Active freshwater fish", 3),
+        Fish(31, "Betta", "Blue", "Long flowing fins", 4),
+        Fish(32, "Crowntail Betta", "Red", "Crown-shaped tail", 4),
+        Fish(33, "Halfmoon Betta", "Purple", "Wide half-moon tail", 4),
+        Fish(34, "Plakat Betta", "Black", "Short strong fins", 4),
+        Fish(35, "Veiltail Betta", "Yellow", "Long veil-like tail", 4),
+        Fish(36, "Doubletail Betta", "White", "Split caudal fin", 4),
+        Fish(37, "Dumbo Betta", "Blue", "Large pectoral fins", 4),
+        Fish(38, "Rosetail Betta", "Red", "Many branched rays", 4),
+        Fish(39, "Koi Betta", "Orange", "Koi-like pattern", 4),
+        Fish(40, "Dragon Betta", "Silver", "Metallic scales", 4)
     };
 
+    const int categoryCount = sizeof(categories) / sizeof(categories[0]);
     const int fishCount = sizeof(fishList) / sizeof(fishList[0]);
+
+    FishShop shop(
+        1,
+        "Ankara Ornamental Fish Shop",
+        "123 Aquarium Street",
+        "Ankara Messi",
+        Date(9, 10, 2026)
+    );
+    shop.setCategories(categories, categoryCount);
+    shop.setFishes(fishList, fishCount);
+
+    shop.displayShopInfo();
     displayFishGroupedByColor(fishList, fishCount);
-
-    cout << "\nAll categories:\n";
-    for (int i = 0; i < categoryCount; ++i) {
-        categories[i].displayCategoryInfo();
-        cout << endl;
-    }
-
-    const int selectedCategoryId = 2;
-    cout << "Fish in selected category (ID: "
-         << selectedCategoryId << "):\n";
-    for (int i = 0; i < categoryCount; ++i) {
-        if (categories[i].getCategoryId() == selectedCategoryId) {
-            cout << "Category: " << categories[i].getCategoryName() << endl;
-            break;
-        }
-    }
-
-    bool foundFish = false;
-    for (int i = 0; i < fishCount; ++i) {
-        if (fishList[i].getCategoryId() == selectedCategoryId) {
-            cout << "- " << fishList[i].getName()
-                 << " (ID: " << fishList[i].getId() << ")\n";
-            foundFish = true;
-        }
-    }
-
-    if (!foundFish) {
-        cout << "No fish belong to this category.\n";
-    }
 
     return 0;
 }
