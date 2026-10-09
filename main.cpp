@@ -60,6 +60,15 @@ public:
     void setCharacteristics(string fishCharacteristics) {
         characteristics = fishCharacteristics;
     }
+
+    // Display
+    void displayFishInfo() {
+        cout << "Fish ID: " << id << endl;
+        cout << "Fish Name: " << name << endl;
+        cout << "Fish Characteristics: " << characteristics << endl;
+    }
+
+    
 };
 
 int main()
